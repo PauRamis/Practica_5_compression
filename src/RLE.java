@@ -6,11 +6,12 @@ public class RLE {
     public static void compress(InputStream is, OutputStream os) throws IOException {
         //is = numero a codificar (1,1,1,1,1,1)
         //os = new ByteArrayOutputStream() numero comprimit a tornar?
+        int isLenght = is.available();
         int current;
         int lastNumber = 0;
         int stack = 0;
 
-        for (int i = 0; i < is.available(); i++) {
+        for (int i = 0; i < isLenght; i++) {
             current = is.read();
             if (i == 0) {
                 //Si és el primer, s'afegeix a l'output i s'identifica com el lastNumber.
@@ -20,7 +21,7 @@ public class RLE {
             }
 
             //Si és igual a l'anterior numero, s'acumula.
-            if (lastNumber == is.read())
+            if (lastNumber == current)
                 stack++;
 
                 //Si no és igual a l'anterior
