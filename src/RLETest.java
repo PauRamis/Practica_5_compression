@@ -25,8 +25,8 @@ public class RLETest {
         test1(new byte[]{1, 2, 3, 3, 1, 4}, new byte[]{1, 2, 3, 3, 3, 4});
         test1(new byte[]{1,2,3,3,0}, new byte[]{1, 2, 3, 3});
 
-/*        byte[]ar;
-
+        //array de 260 posicions plenes de "100"
+        byte[]ar;
         ar = new byte[260];
         for (int i = 0; i < ar.length; i++) {
             ar[i] = 100;
@@ -34,7 +34,7 @@ public class RLETest {
 
         test1(new byte[]{100,100,(byte) 255, 100, 100, 1}, ar);
 
-        ar = new byte[550];
+/*        ar = new byte[550];
         for (int i = 0; i < ar.length; i++) {
             ar[i] = 100;
         }

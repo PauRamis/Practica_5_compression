@@ -4,14 +4,12 @@ import java.io.OutputStream;
 
 public class RLE {
     public static void compress(InputStream is, OutputStream os) throws IOException {
-        //is = numero a codificar (1,1,1,1,1,1)
-        //os = new ByteArrayOutputStream() numero comprimit a tornar?
-        int isLenght = is.available();
+        int isLength = is.available();
         int current;
         int lastNumber = 0;
         int stack = 0;
 
-        for (int i = 0; i < isLenght; i++) {
+        for (int i = 0; i < isLength; i++) {
             current = is.read();
             if (i == 0) {
                 //Si és el primer, s'afegeix a l'output i s'identifica com el lastNumber.
@@ -21,10 +19,19 @@ public class RLE {
             }
 
             //Si és igual a l'anterior numero, s'acumula.
-            if (lastNumber == current)
+            if (lastNumber == current) {
                 stack++;
+                if (stack == 256){
+                    //Límit, tornar a començar l'stack
+                    os.write(lastNumber);
+                    os.write(255);
+                    stack = 0;
+                    lastNumber = 0;
+                    //TODO after 255
+                }
+            }
 
-                //Si no és igual a l'anterior
+            //Si no és igual a l'anterior
             else {
                 // Si ja n'hi ha d'acumulats, s'afegeixen (amb RLE)
                 if (stack != 0) {
@@ -38,6 +45,7 @@ public class RLE {
                 lastNumber = current;
             }
         }
+
         if (stack != 0) {
             os.write(lastNumber);
             os.write(stack - 1);
