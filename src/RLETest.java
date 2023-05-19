@@ -34,12 +34,12 @@ public class RLETest {
 
         test1(new byte[]{100,100,(byte) 255, 100, 100, 1}, ar);
 
-/*        ar = new byte[550];
+        ar = new byte[550];
         for (int i = 0; i < ar.length; i++) {
             ar[i] = 100;
         }
 
-        test1(new byte[]{100,100,(byte) 255, 100, 100, (byte) 255, 100, 100, 34}, ar);*/
+        test1(new byte[]{100,100,(byte) 255, 100, 100, (byte) 255, 100, 100, 34}, ar);
     }
 
     @org.junit.Test

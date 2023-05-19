@@ -22,12 +22,16 @@ public class RLE {
             if (lastNumber == current) {
                 stack++;
                 if (stack == 256){
-                    //Límit, tornar a començar l'stack
+                    //Límit, escriure i tornar a començar
                     os.write(lastNumber);
                     os.write(255);
                     stack = 0;
-                    lastNumber = 0;
-                    //TODO after 255
+
+                    //Cambiam el lastNumber perque no volem que continui amb l'stack,
+                    //Sinó que començi de nou
+                    if (lastNumber != 0)
+                        lastNumber = 0;
+                    else lastNumber = 1;
                 }
             }
 
