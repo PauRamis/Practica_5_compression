@@ -71,14 +71,12 @@ public class RLE {
                 for (int j = 0; j < comptador; j++) {
                     os.write(current);
                 }
-
-                //Hem de fer menos voltes al bucle
-
-                    isLength = isLength - 1;
-
-            }
-
-            lastNumber = current;
+                isLength -= 1;
+                if (lastNumber != 0)
+                    lastNumber = 0;
+                else lastNumber = 1;
+            } else
+                lastNumber = current;
         }
     }
 }

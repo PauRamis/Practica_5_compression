@@ -51,7 +51,7 @@ public class RLETest {
         test2(new byte[]{5}, new byte[]{5});
         test2(new byte[]{1,1,2,2,3,3,4,4}, new byte[]{1,1,0,2,2,0,3,3,0,4,4,0});
 
-        /*byte[]ar;
+        byte[]ar;
 
         ar = new byte[202];
         for (int i = 0; i < ar.length; i++) {
@@ -65,7 +65,7 @@ public class RLETest {
             ar[i] = 55;
         }
 
-        test2(ar, new byte[]{55,55,(byte)255, 55, 55, 0});*/
+        test2(ar, new byte[]{55,55,(byte)255, 55, 55, 0});/**/
 
     }
 
