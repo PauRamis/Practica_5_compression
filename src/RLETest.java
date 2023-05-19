@@ -57,16 +57,13 @@ public class RLETest {
         for (int i = 0; i < ar.length; i++) {
             ar[i] = 55;
         }
-
         test2(ar, new byte[]{55,55,(byte)200});
 
         ar = new byte[259];
         for (int i = 0; i < ar.length; i++) {
             ar[i] = 55;
         }
-
-        test2(ar, new byte[]{55,55,(byte)255, 55, 55, 0});/**/
-
+        test2(ar, new byte[]{55,55,(byte)255, 55, 55, 0});
     }
 
     @org.junit.Test
@@ -90,7 +87,4 @@ public class RLETest {
         assertEquals("53b64328a6be29b9444dd5fded78d39a", Utils.md5(new File(s2)));
         assertEquals("bbcd6a7fc6f98ee378f9d2631dbedfc9", Utils.md5(new File(s3)));
     }
-
-
-
 }

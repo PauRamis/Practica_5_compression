@@ -60,13 +60,14 @@ public class RLE {
         int isLength = is.available();
         int current;
         int lastNumber = 0;
+        boolean first = true;
 
         for (int i = 0; i < isLength; i++) {
             current = is.read();
             os.write(current);
 
             //Si l'actual és igual a l'anterior, el seguent serà el comptador.
-            if (lastNumber == current) {
+            if (lastNumber == current && !first) {
                 int comptador = is.read();
                 for (int j = 0; j < comptador; j++) {
                     os.write(current);
@@ -77,6 +78,10 @@ public class RLE {
                 else lastNumber = 1;
             } else
                 lastNumber = current;
+            first = false;
         }
     }
 }
+//TODO Find what is missing
+//superior@ordsuperior:~/Documents$ hexdump im.bmp | less
+//superior@ordsuperior:~/Documents$ hexdump im.bmp.decomp.rle  | less
