@@ -21,14 +21,14 @@ public class RLE {
             //Si és igual a l'anterior numero, s'acumula.
             if (lastNumber == current) {
                 stack++;
-                if (stack == 256){
+                if (stack == 256) {
                     //Límit, escriure i tornar a començar
                     os.write(lastNumber);
                     os.write(255);
                     stack = 0;
 
-                    //Cambiam el lastNumber perque no volem que continui amb l'stack,
-                    //Sinó que començi de nou
+                    //Canviem el lastNumber perquè no volem que continui amb l'stack,
+                    //sinó que comenci de nou
                     if (lastNumber != 0)
                         lastNumber = 0;
                     else lastNumber = 1;
@@ -56,7 +56,29 @@ public class RLE {
         }
     }
 
-    public static void decompress(InputStream is, OutputStream os) {
+    public static void decompress(InputStream is, OutputStream os) throws IOException {
+        int isLength = is.available();
+        int current;
+        int lastNumber = 0;
 
+        for (int i = 0; i < isLength; i++) {
+            current = is.read();
+            os.write(current);
+
+            //Si l'actual és igual a l'anterior, el seguent serà el comptador.
+            if (lastNumber == current) {
+                int comptador = is.read();
+                for (int j = 0; j < comptador; j++) {
+                    os.write(current);
+                }
+
+                //Hem de fer menos voltes al bucle
+
+                    isLength = isLength - 1;
+
+            }
+
+            lastNumber = current;
+        }
     }
 }
