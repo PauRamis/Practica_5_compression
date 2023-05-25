@@ -19,11 +19,16 @@ public class LZW {
                 os.write(0);
                 os.write(current);
             } else {
-                //Agafarem el seguent fins que sigui diferent
+                //Si es l'ultim, es processa com a unic
+                if (isLength == i+1){
+                    os.write(0);
+                    os.write(current);
+                } else {
+                //Escribim la posició de la entrada corresponent antes del seguent
                 os.write(found);
                 os.write(is.read());
                 isLength--;
-
+                }
             }
         }
 
