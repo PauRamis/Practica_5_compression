@@ -25,6 +25,7 @@ public class LZW {
                     os.write(current);
                 } else {
                 //Escribim la posició de la entrada corresponent antes del seguent
+                    //Todo: repeat till no found?
                 os.write(found);
                 current = (byte) is.read();
                 os.write(current);
