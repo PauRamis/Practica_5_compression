@@ -2,8 +2,7 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class LZW {
     public static void compress(InputStream is, OutputStream os) throws IOException {
@@ -13,27 +12,32 @@ public class LZW {
 
         for (int i = 0; i < isLength; i++) {
             current = (byte) is.read();
-            if (!contains(current, dictionary)){
+            int found = contains(current, dictionary);
+            if (found == 0){
+                //Nova entrada al diccionari
                 dictionary[i] = current;
                 os.write(0);
                 os.write(current);
             } else {
-                System.out.println("aaa");
+                //Agafarem el seguent fins que sigui diferent
+                os.write(found);
+                os.write(is.read());
+                isLength--;
+
             }
         }
 
         /*//Limit 256
             if (dictionary.size() == 256)
-                dictionary = new ArrayList<>();
-        //os.write(dictionary);*/
+                dictionary = new ArrayList<>();*/
     }
 
-    private static boolean contains(byte current, byte[] dictionary) {
-        for (byte b : dictionary) {
-            if (b == current)
-                return true;
+    private static int contains(byte current, byte[] dictionary) {
+        for (int i = 0; i < dictionary.length; i++) {
+            if (dictionary[i] == current)
+                return i+1;
         }
-        return false;
+        return 0;
     }
 
     public static void decompress(InputStream is, OutputStream os) {
