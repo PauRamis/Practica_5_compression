@@ -26,7 +26,9 @@ public class LZW {
                 } else {
                 //Escribim la posició de la entrada corresponent antes del seguent
                 os.write(found);
-                os.write(is.read());
+                current = (byte) is.read();
+                os.write(current);
+                dictionary[i] = (byte) (dictionary[found-1]+current);
                 isLength--;
                 }
             }
@@ -49,3 +51,8 @@ public class LZW {
 
     }
 }
+ /*class arIndex {
+     public arIndex() {
+     }
+
+ }*/
