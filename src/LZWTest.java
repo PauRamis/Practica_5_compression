@@ -25,19 +25,19 @@ public class LZWTest {
 
     @Test
     public void compress() throws Exception {
-        /*assertArrayEquals(new byte[]{0,'a',0,'b',0,'c'},
+        /**/assertArrayEquals(new byte[]{0,'a',0,'b',0,'c'},
                 comp("abc".getBytes()));
 
         assertArrayEquals(new byte[]{0,'a',1,'a'},
                 comp("aaa".getBytes()));
 
         assertArrayEquals(new byte[]{0,'a',0,'a'},
-                comp("aa".getBytes()));*/
+                comp("aa".getBytes()));
 
-        assertArrayEquals(new byte[]{0, 'a', 1, 'a', 2, 'a', 3, 'a', 4, 'a', 3, 'a'},
+        /*assertArrayEquals(new byte[]{0, 'a', 1, 'a', 2, 'a', 3, 'a', 4, 'a', 3, 'a'},
                 comp("aaaaaaaaaaaaaaaaaaa".getBytes()));
 
-        /*assertArrayEquals(new byte[]{0,'a',1,'a',1,'b'},
+        assertArrayEquals(new byte[]{0,'a',1,'a',1,'b'},
                 comp("aaaab".getBytes()));
 
         assertArrayEquals(new byte[]{0,'a',0,'b',0,'r',1,'c',1,'d',1,'b',3,'a'},
