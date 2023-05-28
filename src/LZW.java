@@ -81,28 +81,36 @@ public class LZW {
         byte current = 0;
         int index = 0;
         int indexAnterior = 0;
+
+        //El primer sempre serà un index
+        boolean isNumber = false;
+
         List<TableEntry> dictionary = new ArrayList<>();
 
         //Bucle principal
         for (int i = 0; i < isLength; i++) {
             current = (byte) is.read();
 
-            //index = cercar una entrada igual a current en el diccionari
-            index = search(dictionary, current, indexAnterior);
+            //És un index o un numero?
+            if (isNumber){
+                index = search(dictionary, current, indexAnterior);
 
-            //Si no la hem trobat, nova entrada al diccionari i la escrivim
-            if (index == 0) {
-                dictionary.add(new TableEntry(indexAnterior, current));
-                os.write(indexAnterior);
-                os.write(current);
-                indexAnterior = 0;
+                //Primera vegada que surt el caracter
+                if (index == 0) {
+                    dictionary.add(new TableEntry(indexAnterior, current));
+                    os.write(current);
+                    indexAnterior = 0;
+                } else {
+
+                }
             }
-            //Si la trobem, la guardem i continuem
-            else indexAnterior = index;
+            else {
+                //Guardam el index que ve antes del numero
+                indexAnterior = current;
+            }
 
-            //Limit 256
-            if (dictionary.size() == 256)
-                dictionary = new ArrayList<>();
+            //Alternam entre index y byte
+            isNumber = !isNumber;
         }
 
     }
