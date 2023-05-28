@@ -20,52 +20,43 @@ public class LZW {
         int isLength = is.available();
         byte current = 0;
         int index = 0;
-        int  indexAnterior = 0;
+        int indexAnterior = 0;
         List<TableEntry> dictionary = new ArrayList<>();
 
+        //Bucle principal
         for (int i = 0; i < isLength; i++) {
             current = (byte) is.read();
+
+            //index = cercar una entrada igual a current en el diccionari
             index = search(dictionary, current, indexAnterior);
+
+            //Si no la hem trobat, nova entrada al diccionari i la escrivim
             if (index == 0) {
-                //Nova entrada al diccionari i ho escrivim
-                dictionary.add(new TableEntry(0, current));
+                dictionary.add(new TableEntry(indexAnterior, current));
                 os.write(indexAnterior);
                 os.write(current);
                 indexAnterior = 0;
-
-            } 
+            }
+            //Si la trobam, la guardam i continuam
             else indexAnterior = index;
-                /*//Ja tenim aquest índex apuntant allà on jo vull, però hi ha un altre igual ja existent?
-                //Si és així, tornem a repetir.
-                int tempindex = index;
-                while (tempindex != 0 && isLength > i+1) {
-                    isLength--;
-                    tempindex = search(dictionary, current, index - 1);
-                    if (tempindex != 0) index = tempindex;
-                }
-                dictionary.add(new TableEntry(index, current));
 
-               
-
-                //Escrivim la posició de la entrada corresponent antes del seguent
-                os.write(index);
-                os.write(current);*/
+            //Limit 256
+            if (dictionary.size() == 256)
+                dictionary = new ArrayList<>();
         }
 
-        //Si index no es 0, es que ens hem quedat de per la meitat
-        if (indexAnterior != 0){
-            index = findRoot(dictionary, current, index);
+        //Si index no es 0 al acabar, es que ens hem quedat de per la meitat
+        if (indexAnterior != 0) {
+            index = findRoot(dictionary, current);
             os.write(index);
             os.write(current);
         }
-        /*//Limit 256
-            if (dictionary.size() == 256)
-                dictionary = new ArrayList<>();*/
     }
 
-    private static int findRoot(List<TableEntry> dictionary, byte current, int index) {
+    //Cerca quina entrada conté el mateix symbol que "current"
+    private static int findRoot(List<TableEntry> dictionary, byte current) {
         for (TableEntry tableEntry : dictionary) {
-            if (tableEntry.symbol == (current))
+            if (tableEntry.symbol == current)
                 return tableEntry.index;
         }
         return 0;
