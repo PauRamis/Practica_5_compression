@@ -25,7 +25,7 @@ public class LZWTest {
 
     @Test
     public void compress() throws Exception {
-        /**/assertArrayEquals(new byte[]{0,'a',0,'b',0,'c'},
+        assertArrayEquals(new byte[]{0,'a',0,'b',0,'c'},
                 comp("abc".getBytes()));
 
         assertArrayEquals(new byte[]{0,'a',1,'a'},

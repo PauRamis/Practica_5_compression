@@ -37,7 +37,7 @@ public class LZW {
                 os.write(current);
                 indexAnterior = 0;
             }
-            //Si la trobam, la guardam i continuam
+            //Si la trobem, la guardem i continuem
             else indexAnterior = index;
 
             //Limit 256
@@ -45,7 +45,7 @@ public class LZW {
                 dictionary = new ArrayList<>();
         }
 
-        //Si index no es 0 al acabar, es que ens hem quedat de per la meitat
+        //Si índex no és 0 en acabar, és que ens hem quedat de per la meitat
         if (indexAnterior != 0) {
             index = findRoot(dictionary, current, index);
             os.write(index);
@@ -59,7 +59,7 @@ public class LZW {
         for (TableEntry tableEntry : dictionary) {
             position++;
             if (tableEntry.symbol == (current) && tableEntry.index == index)
-                //TODO Is this right?
+                //TODO No estic segur de que aquesta sigui la manera correcta de fer-ho, encara que funciona.
                 return position-2;
         }
         return 0;
@@ -76,6 +76,34 @@ public class LZW {
         return 0;
     }
 
-    public static void decompress(InputStream is, OutputStream os) {
+    public static void decompress(InputStream is, OutputStream os) throws IOException {
+        int isLength = is.available();
+        byte current = 0;
+        int index = 0;
+        int indexAnterior = 0;
+        List<TableEntry> dictionary = new ArrayList<>();
+
+        //Bucle principal
+        for (int i = 0; i < isLength; i++) {
+            current = (byte) is.read();
+
+            //index = cercar una entrada igual a current en el diccionari
+            index = search(dictionary, current, indexAnterior);
+
+            //Si no la hem trobat, nova entrada al diccionari i la escrivim
+            if (index == 0) {
+                dictionary.add(new TableEntry(indexAnterior, current));
+                os.write(indexAnterior);
+                os.write(current);
+                indexAnterior = 0;
+            }
+            //Si la trobem, la guardem i continuem
+            else indexAnterior = index;
+
+            //Limit 256
+            if (dictionary.size() == 256)
+                dictionary = new ArrayList<>();
+        }
+
     }
 }
