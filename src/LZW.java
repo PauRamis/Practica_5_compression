@@ -78,11 +78,11 @@ public class LZW {
 
     public static void decompress(InputStream is, OutputStream os) throws IOException {
         int isLength = is.available();
-        byte current = 0;
-        int index = 0;
+        byte current;
+        int index;
         int indexAnterior = 0;
 
-        //El primer sempre serà un index
+        //El primer sempre serà un índex
         boolean isNumber = false;
 
         List<TableEntry> dictionary = new ArrayList<>();
@@ -95,16 +95,17 @@ public class LZW {
             if (isNumber){
                 index = search(dictionary, current, indexAnterior);
 
-                //Primera vegada que surt el caracter
-                if (index == 0) {
+
                     dictionary.add(new TableEntry(indexAnterior, current));
                     os.write(current);
                     indexAnterior = 0;
-                } else {
 
-                }
             }
             else {
+                if (current != 0){
+                    writeEntry(dictionary, current, os);
+                }
+
                 //Guardam el index que ve antes del numero
                 indexAnterior = current;
             }
@@ -113,5 +114,13 @@ public class LZW {
             isNumber = !isNumber;
         }
 
+    }
+
+    private static void writeEntry(List<TableEntry> dictionary, byte index, OutputStream os) throws IOException {
+        //Abans d'escriure el symbol, escrivim els anteriors que pugui referenciar.
+        int prev = dictionary.get(index).index;
+        if (prev != 0)
+            writeEntry(dictionary, index, os);
+        os.write(dictionary.get(index).symbol);
     }
 }

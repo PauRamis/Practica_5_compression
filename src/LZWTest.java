@@ -124,8 +124,8 @@ public class LZWTest {
     @Test
     public void decompress() throws Exception {
         assertArrayEquals("ab".getBytes(), decomp(new byte[]{0,'a',0,'b'}));
-        /*assertArrayEquals("abba".getBytes(), decomp(new byte[]{0,'a',0,'b',2,'a'}));
-        assertArrayEquals("abc".getBytes(), decomp(new byte[]{0,'a',0,'b',0,'c'}));
+        assertArrayEquals("abba".getBytes(), decomp(new byte[]{0,'a',0,'b',2,'a'}));
+        /*assertArrayEquals("abc".getBytes(), decomp(new byte[]{0,'a',0,'b',0,'c'}));
         assertArrayEquals("aba".getBytes(), decomp(new byte[]{0,'a',0,'b',0,'a'}));
         assertArrayEquals("abaaabbaaabbbbbaaaababbbaaa".getBytes(), decomp(new byte[]{0, 97, 0, 98, 1, 97, 1, 98,
                 2, 97, 3, 98, 2, 98, 7, 97, 3, 97, 5, 98, 8, 97, 0, 97}));
