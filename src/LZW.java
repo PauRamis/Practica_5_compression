@@ -47,17 +47,20 @@ public class LZW {
 
         //Si index no es 0 al acabar, es que ens hem quedat de per la meitat
         if (indexAnterior != 0) {
-            index = findRoot(dictionary, current);
+            index = findRoot(dictionary, current, index);
             os.write(index);
             os.write(current);
         }
     }
 
-    //Cerca quina entrada conté el mateix symbol que "current"
-    private static int findRoot(List<TableEntry> dictionary, byte current) {
+    //Cerca quina entrada es referencia a l'index
+    private static int findRoot(List<TableEntry> dictionary, byte current, int index) {
+        int position = 0;
         for (TableEntry tableEntry : dictionary) {
-            if (tableEntry.symbol == current)
-                return tableEntry.index;
+            position++;
+            if (tableEntry.symbol == (current) && tableEntry.index == index)
+                //TODO Is this right?
+                return position-2;
         }
         return 0;
     }
