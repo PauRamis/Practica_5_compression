@@ -60,7 +60,7 @@ public class LZW {
             position++;
             if (tableEntry.symbol == (current) && tableEntry.index == index)
                 //TODO No estic segur de que aquesta sigui la manera correcta de fer-ho, encara que funciona.
-                return position-2;
+                return position - 2;
         }
         return 0;
     }
@@ -79,7 +79,6 @@ public class LZW {
     public static void decompress(InputStream is, OutputStream os) throws IOException {
         int isLength = is.available();
         byte current;
-        int index;
         int indexAnterior = 0;
 
         //El primer sempre serà un índex
@@ -92,17 +91,13 @@ public class LZW {
             current = (byte) is.read();
 
             //És un index o un numero?
-            if (isNumber){
-                index = search(dictionary, current, indexAnterior);
+            if (isNumber) {
+                dictionary.add(new TableEntry(indexAnterior, current));
+                os.write(current);
+                indexAnterior = 0;
 
-
-                    dictionary.add(new TableEntry(indexAnterior, current));
-                    os.write(current);
-                    indexAnterior = 0;
-
-            }
-            else {
-                if (current != 0){
+            } else {
+                if (current != 0) {
                     writeEntry(dictionary, current, os);
                 }
 
@@ -118,7 +113,7 @@ public class LZW {
 
     private static void writeEntry(List<TableEntry> dictionary, byte index, OutputStream os) throws IOException {
         //Abans d'escriure el symbol, escrivim els anteriors que pugui referenciar.
-        int prev = dictionary.get(index).index;
+        int prev = dictionary.get(index).index; //TODO ERR method will fail
         if (prev != 0)
             writeEntry(dictionary, index, os);
         os.write(dictionary.get(index).symbol);
